@@ -50,14 +50,26 @@ def from_camels_txt(fn: Path,
                 break
             line_n += 1
 
-    headers = header.split(' ')[3:]
-    headers[0] = "YYYY MM DD HH"
+    if source == 'daymet':
+        headers = header.split(' ')[3:]
+        headers[0] = "YYYY MM DD HH"
+            # read with pandas
+        df = pd.read_csv(fn, skiprows=4, delimiter="\t", names=headers)
+        df.index = df.apply(lambda x: pd.Timestamp(x["YYYY MM DD HH"][:-3]), axis=1)
+        df = df.drop(columns="YYYY MM DD HH")
+        df.index.name = "time"
 
-    # read with pandas
-    df = pd.read_csv(fn, skiprows=4, delimiter="\t", names=headers)
-    df.index = df.apply(lambda x: pd.Timestamp(x["YYYY MM DD HH"][:-3]), axis=1)
-    df = df.drop(columns="YYYY MM DD HH")
-    df.index.name = "time"
+    elif source != 'daymet':
+        headers = header.split('\t')
+        headers = [head.lower() for head in headers]
+        headers[0] = "YYYY MM DD HH"
+            # read with pandas
+        df = pd.read_csv(fn, skiprows=4, delimiter="\t", names=headers)
+        df.index = df.apply(lambda x: pd.Timestamp(x["YYYY MM DD HH"][:-3]), axis=1)
+        df = df.drop(columns="YYYY MM DD HH")
+        df.index.name = "time"
+        
+
 
     # rename
     new_names = [item.split('(')[0] for item in list(df.columns)]
