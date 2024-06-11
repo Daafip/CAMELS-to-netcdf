@@ -14,6 +14,9 @@ def from_camels_txt(fn: Path,
                     alpha:float, 
                     catchment_char: pd.Series,
                     streamflow_file_path: Path,
+                    units_dict: dict,
+                    longname_dict: dict,
+                    data_source_dict: dict
                     ) -> xr.Dataset:
     """Load forcing data from a txt file into an xarray dataset.
 
@@ -82,10 +85,9 @@ def from_camels_txt(fn: Path,
 
     # add attributes
     attrs = {"title": "Basin mean forcing data",
-             "history": "Created by David Haasnoot for eWatercycle using CAMELS dataset",
+             "history": "Converted to netCDF by David Haasnoot for eWatercycle using CAMELS dataset",
              "data_source": "CAMELS was compiled by A. Newman et al. `A large-sample watershed-scale hydrometeorological dataset for the contiguous USA`",
              "url_source_data": "https://dx.doi.org/10.5065/D6MW2F4D",
-             "units": "daylight(s), precipitation(mm/day), mean radiation(W/m2), snow water equivalen(mm), temperature max(C), temperature min(C), temperature mean(c), vapour pressure(Pa), streamflow(mm/day)",
              'alpha': alpha, 
              }
 
@@ -94,6 +96,7 @@ def from_camels_txt(fn: Path,
 
     ds = xr.Dataset(data_vars=df,
                     attrs=attrs)
+    
     ds = ds.expand_dims(dim={'data_source':np.array([(source).encode()],dtype=np.dtype('|S64'))})
     ds = ds.assign_coords({'data_source':np.array([source],dtype=np.dtype('|S64'))})
     # Potential Evaporation conversion using srad & tasmin/maxs
@@ -128,6 +131,14 @@ def from_camels_txt(fn: Path,
     # add attrs
     for col in catchment_char.index:
         ds[col] = catchment_char[col]
+
+    for var in units_dict:
+        if var in list(ds.data_vars):
+            ds[var].attrs.update({'unit': units_dict[var], 
+                                  'long_name': longname_dict[var],
+                                  'data_source': data_source_dict[var]
+                                 }
+                                )
 
     ds, ds_name = crop_ds(basin_id=basin_id, 
                               source=source, 
