@@ -14,12 +14,13 @@ Please cite the original author if used:
 
 ```bib 
 @misc{CAMELS_2022,
-    title={CAMELS: Catchment Attributes and MEteorology for Large-sample Studies}
-    author={Newman, Andrew and Sampson, Kevin and Clark, Martyn and Bock, A. and Viger, R. J. and Blodgett, D. and Addor, N. and Mizukami, M.}
+    title={CAMELS: Catchment Attributes and MEteorology for Large-sample Studies},
+    author={Newman, Andrew and Sampson, Kevin and Clark, Martyn and Bock, A. and Viger, 
+            R. J. and Blodgett, D. and Addor, N. and Mizukami, M.},
     url={https://gdex.ucar.edu/dataset/camels.html}, 
     journal={Ucar.edu}, 
     publisher={UCAR/NCAR - GDEX}, 
     year={2022}, 
-    month={Jun} 
+    month={Jun},
 }
 ```

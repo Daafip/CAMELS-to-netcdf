@@ -24,7 +24,7 @@ The shapefiles (zipped) follow the same naming scheme.
 
 ### Units of time series data
 
-Era5: 
+#### Era5: 
 | Variable name                 | Description                               | Aggregation          | Unit  |
 |-------------------------------|-------------------------------------------|----------------------|-------|
 | snow_depth_water_equivalent   | Snow-Water Equivalent                     | Daily min, max, mean | mm    |
@@ -42,7 +42,7 @@ Era5:
 | potential_evaporation         | Potential Evapotranspiration              | Daily sum            | mm    |
 | streamflow                    | Observed streamflow                       | Daily min, max, mean | mm/d  |
 
-Maurer, NLDAS, DAYMET:
+#### Maurer, NLDAS, DAYMET (only for CAMELS-USA):
 | Variable   | Description           | unit   |
 |------------|-----------------------|--------|
 | dayl       | daylight              | s      |
